@@ -1,0 +1,21 @@
+--
+- name: Backup switches
+  hosts: switchs2960
+  gather_facts: false
+
+  tasks:
+    - name: Configurable backup path
+      cisco.ios.ios_config:
+        backup: yes
+      register: config_output
+- name: remove line Building Configuration
+  lineinfile:
+   path: "./backup/{{inventory_hostname}}.config"
+   regexp: 'Building configuration.*'
+   state: absent
+
+-  name: remove line 'running configuration'
+   lineinfile:
+   path: "./backup/{{inventory_hostname}}.config"
+   regexp: 'Running configuration.*'
+   state: absent

@@ -1,0 +1,28 @@
+---
+- name: Restore full config on vios_l2 switch
+  hosts: sw1
+  gather_facts: no
+  connection: network_cli
+  vars:
+    ansible_network_os: cisco.ios.ios
+    ansible_user: ansible
+    #ansible_password: admin
+    ansible_become: yes
+    ansible_become_method: enable
+    ansible_become_password: kali
+
+  tasks:
+    - name: Copy config file to switch flash
+      cisco.ios.ios_file_copy:
+        src: "./backup/{{ inventory_hostname }}.config"
+        dest: "flash:/{{ inventory_hostname }}.config"
+
+    - name: Replace running config with saved config
+      cisco.ios.ios_command:
+        commands:
+          - configure replace flash:/{{ inventory_hostname }}.config force
+    - name: Save the running config to startup config
+      cisco.ios.ios_command:
+        commands:
+          - write memory
+

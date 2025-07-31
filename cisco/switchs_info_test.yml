@@ -1,0 +1,23 @@
+---
+- name: recuperation info switches
+  hosts: network
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Récupérer les facts Cisco IOS
+      cisco.ios.ios_facts:
+        gather_subset: min
+
+    - name: Sauvegarder les infos IOS dans un fichier
+      copy:
+        content: |
+          IOS device info:
+          {% for host in groups['network'] if 'ansible_net_hostname' in hostvars[host] %}
+          Hostname: {{ hostvars[host].ansible_net_hostname }}
+          Version: {{ hostvars[host].ansible_net_version }}
+          Model: {{ hostvars[host].ansible_net_model }}
+          Serial: {{ hostvars[host].ansible_net_serialnum }}
+          {% endfor %}
+        dest: sauvegardes/switches_ios.info
+      run_once: yes

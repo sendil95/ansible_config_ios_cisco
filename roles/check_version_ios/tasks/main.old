@@ -1,0 +1,34 @@
+---
+- name: check current version
+  debug:
+    msg:
+    - "Current version is {{ ansible_net_version }}"
+    - "Upgrade image is  Version {{ upgrade_ios_version }}"
+
+- name: Afficher la version détectée et la version cible
+  debug:
+    msg: >-
+      Version détectée = {{ ansible_net_version }} /
+      Version cible = {{ upgrade_ios_version }} =>
+      {% if upgrade_ios_version in ansible_net_version %}
+        Version identique. Pas de mise à jour nécessaire.
+      {% else %}
+        Versions différentes. Mise à jour requise.
+      {% endif %}
+
+
+#- name: Afficher les deux versions
+ #debug:
+  #  msg: "Version détectée = {{ ansible_net_version }} / Version cible = {{ upgrade_ios_version }}"
+
+
+
+
+
+
+#- name: compare current version to upgrade ios version
+  d"ebug:
+    #msg:
+    #- "Image is not compliant and will be upgraded"
+
+ # when: ansible_net_version != upgrade_ios_version

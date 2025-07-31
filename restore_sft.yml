@@ -1,0 +1,33 @@
+---
+- name: restore switches
+  hosts: sw1:sw2
+  gather_facts: false
+  vars:
+    ansible_ssh_extra_args: "-oKexAlgorithms=+diffie-hellman-group1-sha1 -oHostKeyAlgorithms=+ssh-rsa"
+
+  tasks:
+    - name: ensure destination file path is reachable
+      ansible.builtin.raw: "touch {{ inventory_hostname }}.config"
+      delegate_to: localhost
+      run_once: true
+
+    - name: copy running config with sftp fallback
+      ansible.builtin.expect:
+        command: sftp -oKexAlgorithms=+diffie-hellman-group1-sha1 -oHostKeyAlgorithms=+ssh-rsa admin@{{ inventory_hostname }}
+        responses:
+          '.*password:': '{{ ansible_password | default("admin") }}'
+          'sftp>': "put ./backup/{{ inventory_hostname }}.config {{ inventory_hostname }}.config\nbye"
+      register: sftp_result
+      ignore_errors: true
+
+    - name: afficher une erreur si sftp a échoué
+      fail:
+        msg: "Le switch {{ inventory_hostname }} est désactivé administrativement ou refuse les transferts de fichiers."
+      when: sftp_result.rc != 0
+
+    - name: config replace
+      remote_user: admin
+      ios_command:
+        commands:
+          - config replace flash:{{ inventory_hostname }}.config force
+      when: sftp_result.rc == 0

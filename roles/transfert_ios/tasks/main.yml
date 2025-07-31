@@ -1,0 +1,13 @@
+- name: Activer SCP sur le switch
+  cisco.ios.ios_config:
+    lines:
+      - ip scp server enable
+
+- name: Transférer le fichier IOS vers le switch via SCP natif
+  ansible.builtin.shell: >
+    scp /etc/ansible/image_ios/c2960x-universalk9-mz.152-7.E7.bin
+    ansible@{{ inventory_hostname }}:flash:/IOS/c2960x-universalk9-mz.152-7.E7.bin
+
+  args:
+    executable: /bin/bash
+  delegate_to: localhost

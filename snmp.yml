@@ -1,0 +1,22 @@
+---
+# tasks file config_base
+  - name: Configuration de  snmp
+    hosts: sw1:sw2
+    gather_facts: false
+
+    pre_tasks:
+      - debug:
+          msg: 'debut de la configuration'
+
+    roles:
+       - snmp
+
+    post_tasks:
+       - debug:
+           msg: 'hostes configures'
+ # - name: Appliquer la config à SW1 uniquement
+  #  hosts: SW1
+   # gather_facts: no
+   # tags: [sw1_config]
+   # roles:
+   #    - conf_base

@@ -1,0 +1,22 @@
+---
+- name: Ansible Filters
+  hosts: network
+  gather_facts: no
+  vars:
+    interfaces_vlan:
+      - { port: vlan 10, prefix: 10.1.10.0/24 }
+      - { port: vlan 20, prefix: 10.1.20.0/24 }
+      - { port: vlan 30, prefix: 10.1.30.0/24 }
+
+  tasks:
+    - name: Generate Interface Config
+      blockinfile:
+        block: |
+          hostname {{ nommachine | upper }}
+          {% for intvlan in interfaces_vlan %}
+          interface {{ intvlan.port }}
+           ip address {{ intvlan.prefix | ipv4(10) | ipv4('address') }} {{ intvlan.prefix | ipv4('netmask') }}
+          {% endfor %}
+        dest: "{{ nommachine }}_interfaces_ip_vlan.cfg"
+        create: yes
+      delegate_to: localhost

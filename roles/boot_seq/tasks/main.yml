@@ -1,0 +1,13 @@
+- name: Change Boot Variable to new image
+  cisco.ios.ios_config:
+    lines:
+      - boot system flash:/IOS/{{ version_152_7_10 }}
+    save_when: always
+
+- name: Reload the Device
+  cli_command:
+    command: reload
+    prompt:
+      - confirm
+    answer:
+      - 'y'

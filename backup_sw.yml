@@ -1,0 +1,14 @@
+- name: Sauvegarde de la configuration du switch
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Récupérer la configuration en cours
+      ios_command:
+        commands: show running-config
+      register: running_config
+
+    - name: Sauvegarder la configuration localement
+      copy:
+        content: "{{ running_config.stdout[0] }}"
+        dest: "backups/{{ inventory_hostname }}-running-config.txt"

@@ -1,0 +1,15 @@
+- name: Obtenir la mémoire utilisée
+  gather_facts: false
+  hosts: sw1
+  tasks:
+    - name: Gather avec subset 'hardware'
+      cisco.ios.facts:
+        gather_subset:
+          - hardware
+      register: all_conf
+
+    - name: Afficher la mémoire (MB)
+      debug:
+        msg: >
+          Mémoire totale : {{ ansible_net_memtotal_mb | round(0) }} MB
+          Mémoire libre  : {{ ansible_net_memfree_mb | round(0) }} MB

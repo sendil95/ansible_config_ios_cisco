@@ -1,0 +1,222 @@
+Building configuration...
+
+Current configuration : 4600 bytes
+!
+! Last configuration change at 15:59:02 UTC Mon Apr 5 2004 by ansible
+! NVRAM config last updated at 15:41:02 UTC Mon Apr 5 2004 by ansible
+!
+version 15.0
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+service sequence-numbers
+!
+hostname Switch
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 16384 informational
+logging console informational
+logging monitor informational
+enable password kali
+!
+username ansible privilege 15 password 0 udane95
+no aaa new-model
+switch 1 provision ws-c2960x-48fps-l
+!
+!
+ip domain-name exemple.local
+vtp mode transparent
+!
+!
+crypto pki trustpoint TP-self-signed-1022376064
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1022376064
+ revocation-check none
+ rsakeypair TP-self-signed-1022376064
+!
+!
+crypto pki certificate chain TP-self-signed-1022376064
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31303232 33373630 3634301E 170D3034 30343035 31323532 
+  35365A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 30323233 
+  37363036 3430819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100A72F C62D48A8 62004D7C CD806411 A645B0F2 7453863D FB5DD932 BF01299A 
+  E11F90FE 205D278A 9B8D9269 7795C09B 94BC84DF A4F461A2 3D59954D B62FED10 
+  2097F2C2 C0A67BAC 9ABFA006 1074A438 DF01B56D 8AB9E194 10D4F72F A3FFB080 
+  E61ACCE5 E73E64A1 D7EABBE6 98A4C7F0 12CE32B7 B376819E 4B6EAA86 B0735831 
+  57C70203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 14234E4A 3D02121D C77A32A5 11561B14 90E3444B 21301D06 
+  03551D0E 04160414 234E4A3D 02121DC7 7A32A511 561B1490 E3444B21 300D0609 
+  2A864886 F70D0101 05050003 81810008 E59BBE53 AA68347D 287FD33C 501FE3ED 
+  13ADE102 CA630C11 AC85D6D9 78911E02 FA258B63 0C981D32 56256B46 DCEED495 
+  CBE34F0B 3E832AB2 800FCC33 138E9051 32C94643 1738D2E8 E65CE50B 209C0BBB 
+  4FC01E8E 283CE4CC 55609358 7BB17AAB 8F05E2EA C78D80D8 F55759BB 6F1D77FE 
+  02E1C471 6D0B68D2 29C65A7E CF3F26
+  	quit
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+vlan 4 
+!
+vlan 400
+ name ADMIN
+!
+vlan 401
+ name DATA
+!
+vlan 402
+ name VOIX
+!
+vlan 403
+ name WIFI_CORPORAT
+!
+ip ssh version 2
+ip scp server enable
+!
+!
+!
+!
+!
+interface FastEthernet0
+ no ip address
+!
+interface GigabitEthernet1/0/1
+ switchport access vlan 4
+ switchport mode access
+!
+interface GigabitEthernet1/0/2
+!
+interface GigabitEthernet1/0/3
+!
+interface GigabitEthernet1/0/4
+!
+interface GigabitEthernet1/0/5
+!
+interface GigabitEthernet1/0/6
+!
+interface GigabitEthernet1/0/7
+!
+interface GigabitEthernet1/0/8
+!
+interface GigabitEthernet1/0/9
+!
+interface GigabitEthernet1/0/10
+!
+interface GigabitEthernet1/0/11
+!
+interface GigabitEthernet1/0/12
+!
+interface GigabitEthernet1/0/13
+!
+interface GigabitEthernet1/0/14
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+!
+interface GigabitEthernet1/0/17
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+!
+interface GigabitEthernet1/0/20
+!
+interface GigabitEthernet1/0/21
+!
+interface GigabitEthernet1/0/22
+!
+interface GigabitEthernet1/0/23
+!
+interface GigabitEthernet1/0/24
+!
+interface GigabitEthernet1/0/25
+!
+interface GigabitEthernet1/0/26
+!
+interface GigabitEthernet1/0/27
+!
+interface GigabitEthernet1/0/28
+!
+interface GigabitEthernet1/0/29
+!
+interface GigabitEthernet1/0/30
+!
+interface GigabitEthernet1/0/31
+!
+interface GigabitEthernet1/0/32
+!
+interface GigabitEthernet1/0/33
+!
+interface GigabitEthernet1/0/34
+!
+interface GigabitEthernet1/0/35
+!
+interface GigabitEthernet1/0/36
+!
+interface GigabitEthernet1/0/37
+!
+interface GigabitEthernet1/0/38
+!
+interface GigabitEthernet1/0/39
+!
+interface GigabitEthernet1/0/40
+!
+interface GigabitEthernet1/0/41
+!
+interface GigabitEthernet1/0/42
+!
+interface GigabitEthernet1/0/43
+!
+interface GigabitEthernet1/0/44
+!
+interface GigabitEthernet1/0/45
+!
+interface GigabitEthernet1/0/46
+!
+interface GigabitEthernet1/0/47
+!
+interface GigabitEthernet1/0/48
+!
+interface GigabitEthernet1/0/49
+!
+interface GigabitEthernet1/0/50
+!
+interface GigabitEthernet1/0/51
+!
+interface GigabitEthernet1/0/52
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan4
+ ip address 192.168.4.30 255.255.255.0
+!
+ip http server
+ip http secure-server
+!
+!
+!
+!
+line con 0
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+end

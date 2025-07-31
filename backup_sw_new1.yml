@@ -1,0 +1,27 @@
+---
+- name: Backup switches
+  hosts: sw1:sw2
+  gather_facts: false
+
+  tasks:
+    - name: Configurable backup path
+      cisco.ios.ios_config:
+        backup: yes
+      register: config_output
+
+    - name: Remove line 'Building configuration'
+      ansible.builtin.lineinfile:
+        path: "./backup/{{ inventory_hostname }}.config"
+        regexp: '^Building configuration.*'
+        state: absent
+
+    - name: Remove line 'running configuration'
+      ansible.builtin.lineinfile:
+        path: "./backup/{{ inventory_hostname }}.config"
+        regexp: '^Current configuration.*'
+        state: absent
+    - name: Rename and save backup config
+      copy:
+        src: "{{ config_output.backup_path }}"                     # Chemin source du fichier (défini par une variable)
+        dest: "./backup/{{ inventory_hostname }}.config"           # Destination avec nom de l'hôte
+        remote_src: yes                                            # IMPORTANT : indique que 'src' est sur le remote host

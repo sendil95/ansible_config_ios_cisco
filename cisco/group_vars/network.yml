@@ -1,0 +1,6 @@
+interfaces:
+  - gigabitEthernet 1/1
+  - gigabitEthernet 1/2
+
+
+

@@ -1,0 +1,15 @@
+- name: obtenir les sous ensembles
+  gather_facts: false
+  hosts: sw1
+  tasks:
+      - name: gather with all
+        cisco.ios.ios_facts:
+            gather_subset:
+            - '!all'
+            -  min
+          #gather_network_resources:
+          #- interfaces
+        register: hardw
+      - name: afficher le resultat
+        debug:
+           var: hardw

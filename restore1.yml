@@ -1,0 +1,20 @@
+---
+- name: restore switches
+  hosts: sw1:sw2
+  gather_facts: false
+
+  tasks:
+    - name: copy running config
+      command: >
+        scp -oKexAlgorithms=+diffie-hellman-group1-sha1
+        ./backup/{{ inventory_hostname }}.config
+        admin@{{ inventory_hostname }}:{{ inventory_hostname }}.config
+      # version alternative sans option ssh spécifique
+      # command: scp ./backup/{{ inventory_hostname }}.config admin@{{ inventory_hostname }}:{{ inventory_hostname }}.config
+
+    - name: config replace
+      remote_user: admin
+      ios_command:
+        commands:
+          - config replace flash:{{ inventory_hostname }}.config force
+      # - config replace flash:{{ inventory_hostname }}.config force

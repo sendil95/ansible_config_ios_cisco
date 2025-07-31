@@ -1,0 +1,25 @@
+
+[switchs]
+sw1 
+sw2
+[switch1]
+sw1
+[all:vars]
+ansible_connection=network_cli
+#ansible_connection=ssh
+ansible_network_os=ios
+#ansible_user=admin
+ansible_become=yes
+ansible_become_method=enable
+ansible_user=admin 
+ansible_become_password=kali
+ansible_ssh_private_key_file=/home/user/.ssh/id_rsa
+#ansible_password=udane95
+#ansible_ssh_common_args='-o KexAlgorithms=+diffie-hellman-group14-sha1 -o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedAlgorithms=+ssh-rsa -o Ciphers=+aes128-cbc'  
+#ansible_ssh_pass=udane
+#ansible_ssh_common_args=-oKexAlgorithms=+diffie-hellman-group14-sha1 -oHostKeyAlgorithms=+ssh-rsa -oPubkeyAcceptedAlgorithms=+ssh-rsa
+#ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+#ansible_user=admin
+#ansible_ssh_pass=admin
+#ansible_connection=ssh
+#ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'

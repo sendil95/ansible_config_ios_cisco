@@ -1,0 +1,147 @@
+Building configuration...
+
+Current configuration : 3113 bytes
+!
+! Last configuration change at 21:06:27 UTC Sat Jul 19 2025 by admin
+!
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname SW1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$6O75$O/Inn1BcgiibapgepOKN5/
+!
+username cisco password 7 121A0C041104
+username admin privilege 15 secret 5 $1$StX.$xR2pZB9wGlywpeXZeNjII/
+no aaa new-model
+!
+!
+!
+!
+!
+no ip routing
+!
+!
+!
+ip domain-name infinityblaze.lab
+no ip cef
+no ipv6 cef
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ switchport access vlan 3
+ negotiation auto
+!
+interface GigabitEthernet0/1
+ switchport access vlan 3
+ negotiation auto
+!
+interface GigabitEthernet0/2
+ switchport access vlan 3
+ negotiation auto
+!
+interface GigabitEthernet0/3
+ negotiation auto
+!
+interface GigabitEthernet1/0
+ negotiation auto
+!
+interface GigabitEthernet1/1
+ negotiation auto
+!
+interface GigabitEthernet1/2
+ negotiation auto
+!
+interface GigabitEthernet1/3
+ negotiation auto
+!
+interface Vlan2
+ ip address 192.168.2.63 255.255.255.0
+ shutdown
+!
+interface Vlan3
+ ip address 192.168.3.25 255.255.255.0
+ no ip route-cache
+!
+ip default-gateway 192.168.3.4
+ip forward-protocol nd
+!
+ip http server
+ip http secure-server
+!
+ip ssh time-out 60
+ip ssh logging events
+ip ssh version 2
+ip ssh server algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+ip ssh client algorithm encryption aes128-ctr aes192-ctr aes256-ctr
+!
+ip access-list extended VTY-ACL
+ permit tcp 192.168.0.0 0.0.255.255 any log
+!
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+Bannier du login
+Veuillez vous authentifier
+SVP
+^C
+banner motd ^C
+ACCESS NON AUTORISE !! Ce routeur est la propriete de infinityblaze
+^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ access-class VTY-ACL in
+ login local
+ transport input ssh
+!
+!
+end

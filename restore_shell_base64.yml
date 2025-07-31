@@ -1,0 +1,25 @@
+---
+- name: restore switches via SSH inline copy
+  hosts: sw1:sw2
+  gather_facts: false
+  vars:
+    ansible_ssh_extra_args: "-oKexAlgorithms=+diffie-hellman-group1-sha1 -oHostKeyAlgorithms=+ssh-rsa"
+
+  tasks:
+    - name: Lire le fichier de config localement
+      delegate_to: localhost
+      slurp:
+        src: "./backup/{{ inventory_hostname }}.config"
+      register: config_file
+
+    - name: Copier le contenu via SSH en base64 -> fichier
+      ansible.builtin.shell: |
+        echo '{{ config_file.content }}' | base64 -d > /flash/{{ inventory_hostname }}.config
+      args:
+        executable: /bin/bash
+
+    - name: config replace
+      remote_user: admin
+      ios_command:
+        commands:
+          - config replace flash:{{ inventory_hostname }}.config force

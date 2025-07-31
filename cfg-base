@@ -1,0 +1,22 @@
+---
+# tasks file config_base
+  - name: Configuration de bases des switches
+    hosts: all
+    gather_facts: false
+
+    pre_tasks:
+      - debug:
+          msg: 'debut de la configuration'
+
+    roles:
+       - conf_base
+
+    post_tasks:
+       - debug:
+           msg: 'hostes configures'
+  - name: Appliquer la config à SW1 uniquement
+    hosts: SW1
+    gather_facts: no
+    tags: [sw1_config]
+    roles:
+       - conf_base

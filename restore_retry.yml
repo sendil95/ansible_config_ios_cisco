@@ -1,0 +1,49 @@
+---
+- name: Restore config on vios_l2 switch via SCP
+  hosts: sw1:sw2
+  gather_facts: no
+  connection: network_cli
+  vars:
+    ansible_network_os: cisco.ios.ios
+    ansible_user: admin
+    ansible_password: admin
+    ansible_become: yes
+    ansible_become_method: enable
+
+  tasks:
+
+    - name: Wait before SCP to avoid CPU spike issues
+      ansible.builtin.pause:
+        seconds: 5
+
+    - name: Copy config to switch via SCP with retry
+      ansible.builtin.shell: >
+        scp -oKexAlgorithms=+diffie-hellman-group1-sha1 -oHostKeyAlgorithms=+ssh-rsa
+        ./backup/{{ inventory_hostname }}.config
+        {{ ansible_user }}@{{ inventory_hostname }}:{{ inventory_hostname }}.config
+      delegate_to: localhost
+      register: scp_result
+      retries: 5
+      delay: 10
+      until: scp_result.rc == 0
+      become: false
+      environment:
+        SSHPASS: "{{ ansible_password }}"
+      vars:
+        ansible_ssh_common_args: '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+
+    - name: Verify file presence on switch
+      cisco.ios.ios_command:
+        commands:
+          - dir | include {{ inventory_hostname }}.config
+      register: dir_output
+
+    - name: Fail if config file not found
+      ansible.builtin.fail:
+        msg: "SCP seems to have failed: config file not found on switch."
+      when: dir_output.stdout[0] is not search("{{ inventory_hostname }}.config")
+
+    - name: Replace running config with file
+      cisco.ios.ios_command:
+        commands:
+          - configure replace flash:{{ inventory_hostname }}.config force

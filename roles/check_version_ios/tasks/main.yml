@@ -1,0 +1,13 @@
+---
+- name: check current version
+  debug:
+    msg:
+      - "Current version is {{ ansible_net_version }}"
+      - "Upgrade image is Version {{ upgrade_ios_version }}"
+
+- name: Afficher la version détectée et la version cible
+  debug:
+    msg: >-
+      Version détectée = {{ ansible_net_version }} /
+      Version cible = {{ upgrade_ios_version }} =>
+      {{ 'Version identique. Pas de mise à jour nécessaire.' if upgrade_ios_version in ansible_net_version else 'Versions différentes. Mise à jour requise.' }}

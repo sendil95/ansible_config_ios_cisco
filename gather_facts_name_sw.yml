@@ -1,0 +1,14 @@
+- name: Obtenir le nom des switchs
+  gather_facts: false
+  hosts: sw1:sw2
+  tasks:
+    - name: Gather avec subset 'hardware_name'
+      cisco.ios.facts:
+        gather_subset:
+          - '!all'
+          - 'min'
+      register: all_conf
+
+    - name: Afficher la mémoire (MB)
+      debug:
+        msg: "le nom des switches : {{ ansible_net_hostname }}"

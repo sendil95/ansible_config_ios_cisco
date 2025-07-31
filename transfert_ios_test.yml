@@ -1,0 +1,15 @@
+- name: Transfert IOS vers switch 2960
+  hosts: switchs2960
+  gather_facts: no
+  connection: network_cli
+
+  tasks:
+    - name: Activer le serveur SCP sur le switch
+      cisco.ios.ios_config:
+        lines:
+          - ip scp server enable
+
+    - name: Transférer l'image IOS vers la flash du switch
+      ansible.netcommon.net_put:
+        src: /etc/ansible/image_ios/c2960x-universalk9-mz.152-7.E7.bin
+        dest: flash:IOS/c2960x-universalk9-mz.152-7.E7.bin

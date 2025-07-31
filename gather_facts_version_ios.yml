@@ -1,0 +1,15 @@
+- name: Obtenir la mémoire d'IOS switch cisco
+  gather_facts: false
+  hosts: switchs
+  tasks:
+    - name: Gather avec subset 'hardware_vesion'
+      cisco.ios.facts:
+        gather_subset:
+          - '!all'
+          - min
+      #register: all_conf
+
+    - name: Afficher la version d'ios
+      debug:
+        msg: "la version d'os est  : {{ ansible_net_version  }}"
+

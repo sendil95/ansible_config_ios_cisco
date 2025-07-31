@@ -1,0 +1,16 @@
+---
+  - name: configuration of snmp public and private
+    ios_config:
+     commands:
+       - snmp-server community inifityblaze-public RO
+       - snmp-server community inifityblaze-private  RW
+  - name: Sauvegarde de la configuration
+    ios_config:
+      save_when: changed
+
+  - name: write memory
+    ios_config:
+      commands:
+        - do write memory
+
+

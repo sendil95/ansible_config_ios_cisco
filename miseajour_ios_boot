@@ -1,0 +1,19 @@
+---
+# tasks file config_base
+  - name: Mise à jour IOS
+    hosts: switchs2960
+    gather_facts: false
+
+    pre_tasks:
+       - name: debut de la configuration
+         ansible.builtin.debug:
+          msg: 'debut de la configuration'
+
+    roles:
+       - boot_seq
+       #- transfert_ios
+
+    post_tasks:
+       - name: fin de la configuration
+         ansible.builtin.debug:
+           msg: 'hostes configures'

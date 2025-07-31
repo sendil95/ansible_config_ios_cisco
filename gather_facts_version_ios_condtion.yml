@@ -1,0 +1,17 @@
+- name: Obtenir les sw en  version 15.1
+  gather_facts: false
+  hosts: switchs
+  tasks:
+    - name: collect ouput show commands
+      ios_command:
+        commands:
+          - show ip interface brief
+        wait_for:
+          - result[0] contains unset
+
+      #register: all_conf
+
+  #  - name: Afficher la version d'ios
+   #   debug:
+   #     msg: "la version d'os est  : {{ ansible_net_version  }}"
+
