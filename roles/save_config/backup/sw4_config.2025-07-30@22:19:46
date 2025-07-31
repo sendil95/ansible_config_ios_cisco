@@ -84,8 +84,7 @@ vlan 400
 vlan 401
  name DATA
 !
-vlan 402
- name VOIX
+vlan 40
 !
 vlan 403
  name WIFI_CORPORAT
