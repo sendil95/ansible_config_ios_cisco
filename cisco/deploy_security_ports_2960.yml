@@ -1,12 +1,12 @@
 ---
 - name: Deploy port security
-  hosts: switches_2960  # Remplacez par le nom correct dans votre inventaire (sans tirets si possible)
+  hosts: switches_2960
   gather_facts: no
   collections:
     - cisco.ios
 
   tasks:
-    - name: Configure port security
+    - name: Configure port security on interfaces
       cisco.ios.ios_config:
         lines:
           - switchport mode access
@@ -15,8 +15,8 @@
           - switchport port-security maximum 2
           - switchport port-security violation shutdown
           - switchport port-security aging time 20
-        parents: '{{ item }}'
-           loop: " {{ ports }} "
+        parents: "{{ item }}"
+      loop: "{{ ports }}"
 
     - name: Save running-config to startup-config when modified
       cisco.ios.ios_config:
