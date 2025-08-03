@@ -1,0 +1,20 @@
+---
+- name: validate interface
+  hosts: switches_2960  # Remplacez par le nom correct dans votre inventaire (sans tirets si possible)
+  gather_facts: no
+  collections:
+    - cisco.ios
+
+  tasks:
+    - name: validate config port
+      ios_command:
+        commands:
+          - sh run interface {{ item }}
+
+      loop: "{{ ports }}"
+      register: show
+
+    - name: show result interface
+      debug:
+        msg:  "{{ show }}"
+
