@@ -11,9 +11,8 @@ all:
 
 
   children:
-    switches-2960:
+    switches_2960:
             hosts:
               sw2:
               sw3:
-              sw1:
               sw4:
