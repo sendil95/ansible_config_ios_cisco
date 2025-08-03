@@ -16,7 +16,7 @@
           - switchport port-security violation shutdown
           - switchport port-security aging time 20
         parents: "{{ item }}"
-      loop: "{{ ports }}"
+    with_items: "{{ ports }}"
 
     - name: Save running-config to startup-config when modified
       cisco.ios.ios_config:
