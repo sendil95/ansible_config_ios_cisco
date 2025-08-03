@@ -16,7 +16,7 @@
           - switchport port-security maximum 2
           - switchport port-security violation shutdown
           - switchport port-security aging time 20
-        parents: interface "{{ item }}"
+        parents: "interface {{ item }}"
       loop: "{{ ports }}"
 
     - name: Save running-config to startup-config when modified
